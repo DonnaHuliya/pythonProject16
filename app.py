@@ -20,7 +20,7 @@ def users():
             res.append(user.to_dict())
         return jsonify(res)
     if request.method == 'POST':
-        user = json.loads(request.date)
+        user = json.loads(request.data)
         new_user_obj = User(
             id=user['id'],
             first_name=user['first_name'],
@@ -79,7 +79,7 @@ def orders():
         return jsonify(res)
     if request.method == 'POST':
         try:
-            order = json.loads(request.date)
+            order = json.loads(request.data)
             month_start, day_start, year_start = [int(_) for _ in order['start_date'].split("/")]
             month_end, day_end, year_end = order['end_date'].split("/")
             new_order_obj = Order(
