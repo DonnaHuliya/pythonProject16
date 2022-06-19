@@ -110,8 +110,8 @@ def one_order(order_id):
             return jsonify(order.to_dict())
     elif request.method == 'PUT':
         order_data = json.loads(request.data)
-        month_start, day_start, year_start = [int(_) for _ in order['start_date'].split("/")]
-        month_end, day_end, year_end = order['end_date'].split("/")
+        month_start, day_start, year_start = [int(_) for _ in order_data['start_date'].split("/")]
+        month_end, day_end, year_end = order_data['end_date'].split("/")
         order = db.session.query(Order).get(order_id)
         if order is None:
             return "Заказ не найден", 404
@@ -126,6 +126,7 @@ def one_order(order_id):
 
         db.session.add(order)
         db.session.commit()
+        db.session.close()
         return f"Заказа с номером id {order_id} успешно изменен", 200
 
     elif request.method == 'DELETE':
